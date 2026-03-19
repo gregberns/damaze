@@ -12,6 +12,10 @@ class GameViewModel {
     var bufferedDirection: Direction?
     var isBumping: Bool
     var bumpDirection: Direction?
+    var isAnimatingMovement: Bool
+
+    // Paint animation: tracks which tiles have been visually painted (for sequencing)
+    var visuallyPaintedTiles: Set<GridPosition>
 
     // Computed properties
     var currentLevel: Level { gameState.level }
@@ -19,6 +23,11 @@ class GameViewModel {
     var paintedTiles: Set<GridPosition> { gameState.paintedTiles }
     var moveCount: Int { gameState.moveCount }
     var phase: GamePhase { gameState.phase }
+
+    /// Whether the ball should show the idle pulse
+    var shouldPulse: Bool {
+        gameState.phase == .awaitingInput && !isAnimatingMovement && !isBumping
+    }
 
     init() {
         let levelData = LevelStore.allLevels[0]
@@ -30,6 +39,8 @@ class GameViewModel {
         self.bufferedDirection = nil
         self.isBumping = false
         self.bumpDirection = nil
+        self.isAnimatingMovement = false
+        self.visuallyPaintedTiles = state.paintedTiles
     }
 
     func handleSwipe(direction: Direction) {
@@ -53,10 +64,34 @@ class GameViewModel {
             return
         }
 
-        // For now, update animating position to final position immediately.
-        // Phase 4 will add cell-by-cell animation sequencing.
-        animatingBallPosition = result.newBallPosition
-        onAnimationComplete()
+        // Cell-by-cell animation
+        isAnimatingMovement = true
+        animatePath(result.path, stepIndex: 0)
+    }
+
+    private func animatePath(_ path: [GridPosition], stepIndex: Int) {
+        guard stepIndex < path.count else {
+            // Animation complete
+            isAnimatingMovement = false
+            onAnimationComplete()
+            return
+        }
+
+        let timePerTile: TimeInterval = 0.125
+        let position = path[stepIndex]
+
+        withAnimation(.linear(duration: timePerTile)) {
+            animatingBallPosition = position
+        }
+
+        // Paint the tile as the ball arrives
+        _ = withAnimation(.easeIn(duration: 0.15)) {
+            visuallyPaintedTiles.insert(position)
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + timePerTile) { [weak self] in
+            self?.animatePath(path, stepIndex: stepIndex + 1)
+        }
     }
 
     func onAnimationComplete() {
@@ -82,6 +117,8 @@ class GameViewModel {
         isBumping = false
         bumpDirection = nil
         isShowingCompletion = false
+        isAnimatingMovement = false
+        visuallyPaintedTiles = gameState.paintedTiles
     }
 
     func advanceLevel() {
@@ -92,6 +129,8 @@ class GameViewModel {
             gameState = GameEngine.createInitialState(for: levelData.level)
             animatingBallPosition = gameState.ballPosition
             bufferedDirection = nil
+            isAnimatingMovement = false
+            visuallyPaintedTiles = gameState.paintedTiles
         } else {
             isShowingCompletion = true
         }
@@ -104,5 +143,7 @@ class GameViewModel {
         gameState = GameEngine.createInitialState(for: levelData.level)
         animatingBallPosition = gameState.ballPosition
         bufferedDirection = nil
+        isAnimatingMovement = false
+        visuallyPaintedTiles = gameState.paintedTiles
     }
 }

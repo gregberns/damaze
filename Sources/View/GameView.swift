@@ -17,9 +17,20 @@ struct GameView: View {
 
             GridView(
                 level: viewModel.currentLevel,
-                paintedTiles: viewModel.paintedTiles,
+                paintedTiles: viewModel.visuallyPaintedTiles,
                 ballPosition: viewModel.animatingBallPosition,
-                levelColor: levelColor
+                levelColor: levelColor,
+                isBumping: viewModel.isBumping,
+                bumpDirection: viewModel.bumpDirection,
+                shouldPulse: viewModel.shouldPulse
+            )
+            .gesture(
+                DragGesture(minimumDistance: 20)
+                    .onEnded { value in
+                        if let direction = InputMapper.direction(from: value.translation) {
+                            viewModel.handleSwipe(direction: direction)
+                        }
+                    }
             )
         }
         .background(Color(.systemBackground))
