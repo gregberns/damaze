@@ -1,3 +1,6 @@
 .beads/
 .claude/
 .runtime/
+*.xcodeproj
+build/
+DerivedData/
