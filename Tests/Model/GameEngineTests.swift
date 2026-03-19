@@ -420,6 +420,162 @@ final class GameEngineTests: XCTestCase {
         XCTAssertTrue(state.isComplete)
     }
 
+    // #57
+    func test_level4_solvableWithVerifiedSolution() {
+        let level = LevelStore.level4.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.down, .right, .left, .up, .right, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #58
+    func test_level5_solvableWithVerifiedSolution() {
+        let level = LevelStore.level5.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.right, .up, .left, .down, .right, .down, .left]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #59
+    func test_level6_solvableWithVerifiedSolution() {
+        let level = LevelStore.level6.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.up, .right, .up, .down, .left, .up, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #60
+    func test_level7_solvableWithVerifiedSolution() {
+        let level = LevelStore.level7.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.down, .left, .right, .up, .left, .right, .down, .left]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #61
+    func test_level8_solvableWithVerifiedSolution() {
+        let level = LevelStore.level8.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.down, .left, .right, .up, .left, .up, .left, .right, .down, .left]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #62
+    func test_level9_solvableWithVerifiedSolution() {
+        let level = LevelStore.level9.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.down, .up, .right, .up, .right, .left, .down, .left, .up, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #63
+    func test_level10_solvableWithVerifiedSolution() {
+        let level = LevelStore.level10.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.down, .right, .down, .up, .left, .up, .down, .right, .up, .left, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #64
+    func test_level11_solvableWithVerifiedSolution() {
+        let level = LevelStore.level11.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.up, .left, .up, .down, .right, .up, .down, .right, .up, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #65
+    func test_level12_solvableWithVerifiedSolution() {
+        let level = LevelStore.level12.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.left, .down, .up, .left, .right, .down, .left, .right, .up, .left, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #66
+    func test_level13_solvableWithVerifiedSolution() {
+        let level = LevelStore.level13.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.down, .right, .left, .up, .right, .down, .up, .left, .up, .down, .left]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #67
+    func test_level14_solvableWithVerifiedSolution() {
+        let level = LevelStore.level14.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.down, .left, .right, .up, .down, .left, .down, .left, .down, .up, .right, .left, .up, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #68
+    func test_level15_solvableWithVerifiedSolution() {
+        let level = LevelStore.level15.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.up, .right, .down, .right, .down, .left, .right, .up, .left, .up, .left, .up, .left, .right, .down]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
+    // #69
+    func test_level16_solvableWithVerifiedSolution() {
+        let level = LevelStore.level16.level
+        var state = GameEngine.createInitialState(for: level)
+        let moves: [Direction] = [.up, .down, .left, .up, .right, .up, .down, .right, .left, .down, .up, .right, .up, .down, .left]
+        for move in moves {
+            GameEngine.applyMove(direction: move, state: &state)
+            state.phase = .awaitingInput
+        }
+        XCTAssertTrue(state.isComplete)
+    }
+
     // MARK: - createInitialState Tests
 
     // #51

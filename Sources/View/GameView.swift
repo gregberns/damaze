@@ -6,6 +6,9 @@ extension LevelColorScheme {
         case .blue: return .blue
         case .green: return .green
         case .orange: return .orange
+        case .purple: return .purple
+        case .teal: return .teal
+        case .red: return .red
         }
     }
 }
