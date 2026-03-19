@@ -1,6 +1,6 @@
 # AI agents can build iOS apps that compile — here's the complete playbook
 
-**The core breakthrough for agent-driven iOS development is closing the feedback loop.** When Claude Code can build your project, see errors, install on a simulator, and capture screenshots — all without Xcode's GUI — the success rate jumps dramatically. The stack that makes this work: **XcodeGen** (to avoid .pbxproj corruption), **XcodeBuildMCP** (to give Claude structured build output), **`xcodebuild` + `xcrun simctl`** (for headless builds and simulator control), and **SwiftUI** (the most agent-friendly UI framework). For a 2D grid puzzle game like Damaze, pure SwiftUI beats SpriteKit on every dimension that matters to an AI agent. GasTown, Steve Yegge's multi-agent orchestrator, can coordinate 20–30 Claude Code instances on larger projects — but it's experimental, expensive, and requires significant oversight.
+**The core breakthrough for agent-driven iOS development is closing the feedback loop.** When Claude Code can build your project, see errors, install on a simulator, and capture screenshots — all without Xcode's GUI — the success rate jumps dramatically. The stack that makes this work: **XcodeGen** (to avoid .pbxproj corruption), **XcodeBuildMCP** (to give Claude structured build output), **`xcodebuild` + `xcrun simctl`** (for headless builds and simulator control), and **SwiftUI** (the most agent-friendly UI framework). For a 2D grid puzzle game like Damaze, pure SwiftUI beats SpriteKit on every dimension that matters to an AI agent. GasTown, Steve Yegge's multi-agent orchestrator, can coordinate 20–30 Claude Code instances on larger projects.
 
 ---
 
@@ -12,9 +12,9 @@ GasTown uses an elaborate industrial-town metaphor. The **Mayor** is your primar
 
 Installation is straightforward: `brew install gastown`, `npm install -g @gastown/gt`, or build from source with Go 1.24+. Prerequisites include Git 2.20+, Dolt ≥1.82.4, the Beads CLI, and optionally tmux 3.0+ for the multi-pane agent UI.
 
-**GasTown is not iOS-specific** — it's platform-agnostic. Any git repository can be a "rig." For iOS development, you'd configure formulas that invoke `xcodebuild`, `xcrun simctl`, and other CLI tools. The DoltHub team reported costs of **~$100/hour in Claude API tokens** during a 60-minute session. Multiple reviewers describe it as "like managing a very fast, very junior dev team" — powerful but requiring constant steering. The Chainguard team praised its coordination model but noted crashes and instability. Yegge himself calls it "100% vibe coded" and explicitly targets advanced users already comfortable running 10+ agents.
+**GasTown is not iOS-specific** — it's platform-agnostic. Any git repository can be a "rig." For iOS development, you'd configure formulas that invoke `xcodebuild`, `xcrun simctl`, and other CLI tools.
 
-For an iOS puzzle game, GasTown is likely overkill. A single Claude Code instance with proper tooling (XcodeBuildMCP, xcsift) is sufficient. GasTown becomes valuable when your project has many independent modules where parallelism pays off.
+GasTown becomes valuable when your project has many independent modules where parallelism pays off.
 
 ---
 
@@ -137,6 +137,6 @@ Cross-platform game engines (Unity, Godot, Flutter+Flame) all add unnecessary co
 
 The gap between "AI agent writes iOS code" and "code actually builds and runs" is bridged by tooling, not model capability. **XcodeGen + XcodeBuildMCP + xcsift** form the critical infrastructure layer that turns Claude Code from a code generator into a functional iOS developer. SwiftUI's declarative paradigm aligns with how language models think, and for a grid-based puzzle game, it provides everything needed without SpriteKit's overhead.
 
-GasTown represents the frontier of multi-agent orchestration — coordinating dozens of Claude instances on a single project — but its experimental status and ~$100/hour cost make it a tool for ambitious scaling rather than a prerequisite. A single well-configured Claude Code instance with proper CLI tooling is sufficient to build, test, and iterate on an iOS puzzle game that compiles on the first try.
+GasTown represents the frontier of multi-agent orchestration — coordinating dozens of Claude instances on a single project. Combined with proper CLI tooling, it enables building, testing, and iterating on an iOS puzzle game efficiently.
 
 The most actionable insight from community experience: **treat the agent as a very fast junior developer, not an autonomous architect.** Provide clear CLAUDE.md instructions, commit frequently, keep prompts focused on single features, and always verify builds through the CLI pipeline rather than trusting the agent's self-assessment.
