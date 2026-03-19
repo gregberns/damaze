@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 struct LevelData {
     let name: String
@@ -10,14 +10,6 @@ enum LevelColorScheme: String {
     case blue
     case green
     case orange
-
-    var color: Color {
-        switch self {
-        case .blue: return .blue
-        case .green: return .green
-        case .orange: return .orange
-        }
-    }
 }
 
 enum LevelStore {

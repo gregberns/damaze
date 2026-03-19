@@ -1,5 +1,15 @@
 import SwiftUI
 
+extension LevelColorScheme {
+    var color: Color {
+        switch self {
+        case .blue: return .blue
+        case .green: return .green
+        case .orange: return .orange
+        }
+    }
+}
+
 struct GameView: View {
     @Bindable var viewModel: GameViewModel
 
