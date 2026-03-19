@@ -17,6 +17,14 @@ class GameViewModel {
     // Paint animation: tracks which tiles have been visually painted (for sequencing)
     var visuallyPaintedTiles: Set<GridPosition>
 
+    // Win animation state
+    var isGridPulsing: Bool
+    var isShowingWinText: Bool
+    var winMoveCount: Int
+
+    // Generation counter to invalidate orphaned timers on restart
+    private var generation: Int
+
     // Computed properties
     var currentLevel: Level { gameState.level }
     var ballPosition: GridPosition { gameState.ballPosition }
@@ -41,6 +49,10 @@ class GameViewModel {
         self.bumpDirection = nil
         self.isAnimatingMovement = false
         self.visuallyPaintedTiles = state.paintedTiles
+        self.isGridPulsing = false
+        self.isShowingWinText = false
+        self.winMoveCount = 0
+        self.generation = 0
     }
 
     func handleSwipe(direction: Direction) {
@@ -100,6 +112,8 @@ class GameViewModel {
         if wasWin {
             gameState.phase = .won
             bufferedDirection = nil
+            winMoveCount = gameState.moveCount
+            startWinSequence()
         } else {
             gameState.phase = .awaitingInput
             if let buffered = bufferedDirection {
@@ -109,7 +123,52 @@ class GameViewModel {
         }
     }
 
+    private func startWinSequence() {
+        let gen = generation
+
+        // t=0.3s: Start grid pulse
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self, self.generation == gen else { return }
+            withAnimation(.easeInOut(duration: 0.4)) {
+                self.isGridPulsing = true
+            }
+
+            // Reset pulse at t=0.7s
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+                guard let self, self.generation == gen else { return }
+                withAnimation(.easeInOut(duration: 0.4)) {
+                    self.isGridPulsing = false
+                }
+            }
+        }
+
+        // t=0.7s: Show win text
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [weak self] in
+            guard let self, self.generation == gen else { return }
+            withAnimation(.easeIn(duration: 0.3)) {
+                self.isShowingWinText = true
+            }
+        }
+
+        // t=1.5s: Auto-transition to next level or completion
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            guard let self, self.generation == gen else { return }
+            self.isShowingWinText = false
+            self.isGridPulsing = false
+            withAnimation(.easeInOut(duration: 0.4)) {
+                self.advanceLevel()
+            }
+        }
+    }
+
+    private func resetWinState() {
+        isGridPulsing = false
+        isShowingWinText = false
+        winMoveCount = 0
+    }
+
     func restart() {
+        generation += 1
         let levelData = LevelStore.allLevels[currentLevelIndex]
         gameState = GameEngine.createInitialState(for: levelData.level)
         animatingBallPosition = gameState.ballPosition
@@ -119,6 +178,7 @@ class GameViewModel {
         isShowingCompletion = false
         isAnimatingMovement = false
         visuallyPaintedTiles = gameState.paintedTiles
+        resetWinState()
     }
 
     func advanceLevel() {
@@ -131,12 +191,15 @@ class GameViewModel {
             bufferedDirection = nil
             isAnimatingMovement = false
             visuallyPaintedTiles = gameState.paintedTiles
+            resetWinState()
         } else {
             isShowingCompletion = true
+            resetWinState()
         }
     }
 
     func playAgain() {
+        generation += 1
         isShowingCompletion = false
         currentLevelIndex = 0
         let levelData = LevelStore.allLevels[0]
@@ -145,5 +208,6 @@ class GameViewModel {
         bufferedDirection = nil
         isAnimatingMovement = false
         visuallyPaintedTiles = gameState.paintedTiles
+        resetWinState()
     }
 }

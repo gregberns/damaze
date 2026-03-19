@@ -8,6 +8,7 @@ struct GridView: View {
     let isBumping: Bool
     let bumpDirection: Direction?
     let shouldPulse: Bool
+    let isGridPulsing: Bool
 
     var body: some View {
         GeometryReader { geometry in
@@ -24,12 +25,14 @@ struct GridView: View {
                         HStack(spacing: 0) {
                             ForEach(0..<level.cols, id: \.self) { col in
                                 let pos = GridPosition(row: row, col: col)
+                                let isPainted = paintedTiles.contains(pos)
                                 CellView(
                                     cellType: level.grid[row][col],
-                                    isPainted: paintedTiles.contains(pos),
+                                    isPainted: isPainted,
                                     levelColor: levelColor,
                                     cellSize: cellSize
                                 )
+                                .scaleEffect(isPainted && isGridPulsing ? 1.05 : 1.0)
                             }
                         }
                     }
