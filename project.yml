@@ -2,7 +2,7 @@ name: Damaze
 options:
   bundleIdPrefix: com.damaze
   deploymentTarget:
-    iOS: "16.0"
+    iOS: "17.0"
   xcodeVersion: "16.0"
 targets:
   Damaze:
