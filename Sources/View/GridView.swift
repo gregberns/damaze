@@ -5,6 +5,9 @@ struct GridView: View {
     let paintedTiles: Set<GridPosition>
     let ballPosition: GridPosition
     let levelColor: Color
+    let isBumping: Bool
+    let bumpDirection: Direction?
+    let shouldPulse: Bool
 
     var body: some View {
         GeometryReader { geometry in
@@ -35,7 +38,10 @@ struct GridView: View {
                 BallView(
                     position: ballPosition,
                     levelColor: levelColor,
-                    cellSize: cellSize
+                    cellSize: cellSize,
+                    isBumping: isBumping,
+                    bumpDirection: bumpDirection,
+                    shouldPulse: shouldPulse
                 )
                 .allowsHitTesting(false)
             }
