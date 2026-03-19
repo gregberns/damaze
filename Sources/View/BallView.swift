@@ -28,7 +28,7 @@ struct BallView: View {
             .animation(
                 isBumping
                     ? .spring(response: 0.15, dampingFraction: 0.5)
-                    : .spring(response: 0.15, dampingFraction: 0.5),
+                    : .default,
                 value: isBumping
             )
             .position(x: x, y: y)
