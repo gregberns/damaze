@@ -1,0 +1,28 @@
+name: Damaze
+options:
+  bundleIdPrefix: com.damaze
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "16.0"
+targets:
+  Damaze:
+    type: application
+    platform: iOS
+    sources: [Sources]
+    settings:
+      base:
+        CODE_SIGNING_ALLOWED: false
+        GENERATE_INFOPLIST_FILE: true
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: 1
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+  DamazeTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: Damaze
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
