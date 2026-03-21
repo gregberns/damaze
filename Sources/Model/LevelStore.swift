@@ -159,74 +159,209 @@ enum LevelStore {
     )
 
     static let level12 = LevelData(
-        name: "Labyrinth",
+        name: "The Gallery",
         colorScheme: .red,
         level: try! Level(grid: [
-            [1, 1, 1, 1, 0, 1, 1],
-            [0, 0, 1, 1, 1, 2, 1],
-            [0, 0, 1, 1, 0, 1, 1],
-            [0, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 0, 1],
+            [1, 0, 1, 1, 0, 1],
+            [1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 2, 1, 1],
+        ])
+    )
+
+    // MARK: - Generated Medium-Large Levels
+
+    static let level13 = LevelData(
+        name: "Wide Open",
+        colorScheme: .blue,
+        level: try! Level(grid: [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 2, 1, 1, 1],
+        ])
+    )
+
+    static let level14 = LevelData(
+        name: "The Channels",
+        colorScheme: .green,
+        level: try! Level(grid: [
+            [2, 1, 0, 1, 1, 1, 1],
+            [1, 1, 0, 1, 0, 0, 1],
+            [0, 1, 1, 1, 0, 0, 1],
+            [0, 0, 0, 1, 1, 1, 1],
+            [1, 1, 1, 1, 0, 0, 0],
+            [1, 0, 0, 1, 0, 0, 0],
+            [1, 1, 1, 1, 0, 0, 0],
+        ])
+    )
+
+    static let level15 = LevelData(
+        name: "Courtyard",
+        colorScheme: .orange,
+        level: try! Level(grid: [
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 1, 1, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 0, 0, 0, 0, 1, 1],
+            [1, 1, 0, 0, 0, 0, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 1, 1, 0, 0, 1],
+            [1, 1, 1, 1, 2, 1, 1, 1],
+        ])
+    )
+
+    static let level16 = LevelData(
+        name: "River Bend",
+        colorScheme: .purple,
+        level: try! Level(grid: [
+            [1, 1, 1, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 1, 1],
+            [0, 0, 0, 0, 0, 0, 0, 2],
+        ])
+    )
+
+    static let level17 = LevelData(
+        name: "Zigzag",
+        colorScheme: .teal,
+        level: try! Level(grid: [
+            [2, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0],
         ])
     )
 
     // MARK: - Generated Hard Levels
 
-    static let level13 = LevelData(
-        name: "The Cascade",
+    static let level18 = LevelData(
+        name: "The Fortress",
+        colorScheme: .red,
+        level: try! Level(grid: [
+            [1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 2, 1, 1, 1],
+        ])
+    )
+
+    static let level19 = LevelData(
+        name: "Grand Tour",
         colorScheme: .blue,
         level: try! Level(grid: [
-            [0, 0, 0, 0, 0, 1, 0],
-            [0, 0, 0, 0, 0, 1, 1],
-            [0, 0, 0, 0, 1, 1, 1],
-            [0, 0, 0, 1, 1, 1, 1],
-            [0, 0, 0, 0, 1, 0, 1],
-            [0, 0, 0, 0, 1, 2, 0],
-            [0, 0, 0, 0, 1, 1, 1],
+            [1, 1, 1, 0, 1, 1, 1, 1],
+            [1, 0, 1, 0, 1, 0, 0, 1],
+            [1, 0, 1, 1, 1, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 1, 1, 1, 0, 1],
+            [1, 0, 0, 1, 0, 1, 0, 1],
+            [1, 1, 1, 1, 0, 1, 1, 2],
         ])
     )
 
-    static let level14 = LevelData(
-        name: "Grand Tour",
+    static let level20 = LevelData(
+        name: "Switchback",
         colorScheme: .green,
         level: try! Level(grid: [
-            [1, 0, 0, 0, 0, 2, 1],
-            [1, 0, 0, 0, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
             [1, 1, 1, 1, 1, 0, 1],
-            [1, 0, 1, 0, 0, 1, 1],
-            [1, 0, 1, 1, 1, 1, 0],
-            [0, 0, 1, 0, 0, 0, 0],
+            [1, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 2, 0, 0, 0],
         ])
     )
 
-    static let level15 = LevelData(
-        name: "Switchback",
+    static let level21 = LevelData(
+        name: "The Cascade",
         colorScheme: .orange,
         level: try! Level(grid: [
-            [1, 1, 1, 1, 1, 1],
-            [0, 1, 0, 0, 0, 1],
-            [0, 1, 1, 1, 1, 0],
-            [0, 0, 1, 1, 1, 1],
-            [0, 0, 0, 2, 0, 1],
-            [0, 0, 0, 0, 1, 1],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0],
+            [1, 1, 1, 2, 1, 0, 0, 0, 0],
         ])
     )
 
-    static let level16 = LevelData(
+    static let level22 = LevelData(
         name: "Maze Runner",
         colorScheme: .purple,
         level: try! Level(grid: [
-            [0, 0, 1, 1, 0, 1],
-            [0, 1, 1, 1, 0, 1],
-            [1, 1, 2, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 0, 0, 1],
-            [0, 1, 1, 0, 1, 1],
+            [1, 1, 1, 1, 1, 0, 1, 1, 1],
+            [1, 0, 0, 0, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 1, 1, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 0, 0, 1, 1, 1],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 2, 0, 0, 0, 0],
+        ])
+    )
+
+    static let level23 = LevelData(
+        name: "The Labyrinth",
+        colorScheme: .teal,
+        level: try! Level(grid: [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 1, 0, 1, 1, 0, 1],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
+            [0, 0, 1, 0, 1, 1, 1, 0, 1, 1],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
+        ])
+    )
+
+    static let level24 = LevelData(
+        name: "Colosseum",
+        colorScheme: .red,
+        level: try! Level(grid: [
+            [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+            [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
+            [1, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+            [1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+            [0, 1, 1, 1, 1, 2, 1, 1, 1, 0],
         ])
     )
 
     static let allLevels: [LevelData] = [
         level1, level2, level3, level4, level5, level6,
         level7, level8, level9, level10, level11, level12,
-        level13, level14, level15, level16,
+        level13, level14, level15, level16, level17, level18,
+        level19, level20, level21, level22, level23, level24,
     ]
 }

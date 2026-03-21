@@ -185,6 +185,133 @@ enum LevelSolver {
             score: score
         )
     }
+
+    /// Analyzes how many first-move directions lead to a solvable state.
+    /// Tests each of the 4 directions as a first move, then runs the solver
+    /// on the resulting state to check if the level is still completable.
+    static func analyzeFirstMoves(level: Level, maxMoves: Int = 30) -> FirstMoveAnalysis {
+        var solvableDirections: [Direction] = []
+
+        for dir in Direction.allCases {
+            let path = GameEngine.computePath(
+                from: level.startPosition,
+                direction: dir,
+                grid: level.grid,
+                rows: level.rows,
+                cols: level.cols
+            )
+            guard !path.isEmpty else { continue }
+
+            // Create a modified level state after this first move
+            // We need to check if the remaining tiles can still be covered
+            var painted: Set<GridPosition> = [level.startPosition]
+            for p in path { painted.insert(p) }
+            let newPos = path.last!
+
+            if painted.count == level.floorTileCount {
+                // First move solves it
+                solvableDirections.append(dir)
+                continue
+            }
+
+            // Build a state and try to solve from here
+            let remaining = solveFromState(
+                level: level, position: newPos, painted: painted, maxMoves: maxMoves - 1
+            )
+            if remaining != nil {
+                solvableDirections.append(dir)
+            }
+        }
+
+        return FirstMoveAnalysis(
+            totalDirections: 4,
+            solvableDirections: solvableDirections.count,
+            solvableFrom: solvableDirections
+        )
+    }
+
+    /// Solves from an arbitrary mid-game state (position + painted set).
+    private static func solveFromState(
+        level: Level, position: GridPosition,
+        painted: Set<GridPosition>, maxMoves: Int
+    ) -> [Direction]? {
+        var tileIndex: [GridPosition: Int] = [:]
+        var idx = 0
+        for r in 0..<level.rows {
+            for c in 0..<level.cols {
+                if level.grid[r][c] != .wall {
+                    tileIndex[GridPosition(row: r, col: c)] = idx
+                    idx += 1
+                }
+            }
+        }
+        let totalTiles = idx
+        guard totalTiles > 0, totalTiles <= 64 else { return nil }
+
+        let goalMask: UInt64 = totalTiles == 64 ? UInt64.max : (1 << totalTiles) - 1
+
+        var moveTable: [GridPosition: [(Direction, GridPosition, UInt64)]] = [:]
+        for (pos, _) in tileIndex {
+            var moves: [(Direction, GridPosition, UInt64)] = []
+            for dir in Direction.allCases {
+                let path = GameEngine.computePath(
+                    from: pos, direction: dir,
+                    grid: level.grid, rows: level.rows, cols: level.cols
+                )
+                guard !path.isEmpty else { continue }
+                var mask: UInt64 = 0
+                for p in path {
+                    if let bitIdx = tileIndex[p] { mask |= (1 << bitIdx) }
+                }
+                moves.append((dir, path.last!, mask))
+            }
+            moveTable[pos] = moves
+        }
+
+        var initialPainted: UInt64 = 0
+        for p in painted {
+            if let bitIdx = tileIndex[p] { initialPainted |= (1 << bitIdx) }
+        }
+
+        if initialPainted == goalMask { return [] }
+
+        struct State: Hashable {
+            let row: Int16; let col: Int16; let painted: UInt64
+        }
+
+        let initialState = State(
+            row: Int16(position.row), col: Int16(position.col), painted: initialPainted
+        )
+        var visited: Set<State> = [initialState]
+        var queue: [(State, Int)] = [(initialState, 0)]
+        var queueIdx = 0
+
+        while queueIdx < queue.count {
+            if visited.count > 500_000 { break }
+            let (current, depth) = queue[queueIdx]
+            queueIdx += 1
+            if depth >= maxMoves { continue }
+
+            let currentPos = GridPosition(row: Int(current.row), col: Int(current.col))
+            guard let moves = moveTable[currentPos] else { continue }
+
+            for (_, dest, paintMask) in moves {
+                let newPainted = current.painted | paintMask
+                let newState = State(row: Int16(dest.row), col: Int16(dest.col), painted: newPainted)
+                guard !visited.contains(newState) else { continue }
+                visited.insert(newState)
+                if newPainted == goalMask { return [] } // solvable
+                queue.append((newState, depth + 1))
+            }
+        }
+        return nil
+    }
+}
+
+struct FirstMoveAnalysis {
+    let totalDirections: Int
+    let solvableDirections: Int
+    let solvableFrom: [Direction]
 }
 
 struct QualityMetrics {

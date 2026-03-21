@@ -516,64 +516,94 @@ final class GameEngineTests: XCTestCase {
         XCTAssertTrue(state.isComplete)
     }
 
-    // #65
-    func test_level12_solvableWithVerifiedSolution() {
-        let level = LevelStore.level12.level
-        var state = GameEngine.createInitialState(for: level)
-        let moves: [Direction] = [.left, .down, .up, .left, .right, .down, .left, .right, .up, .left, .down]
-        for move in moves {
-            GameEngine.applyMove(direction: move, state: &state)
-            state.phase = .awaitingInput
+    // MARK: - Solver-Verified Level Tests (levels 12-24)
+    // These use LevelSolver to find solutions and verify them through GameEngine.
+
+    func test_allLevels_solvableViaSolver() {
+        for (index, levelData) in LevelStore.allLevels.enumerated() {
+            let level = levelData.level
+            let solution = LevelSolver.solve(level: level, maxMoves: 30)
+            XCTAssertNotNil(solution, "Level \(index + 1) (\(levelData.name)) has no solution")
+
+            guard let moves = solution else { continue }
+
+            var state = GameEngine.createInitialState(for: level)
+            for move in moves {
+                GameEngine.applyMove(direction: move, state: &state)
+                state.phase = .awaitingInput
+            }
+            XCTAssertTrue(state.isComplete,
+                "Level \(index + 1) (\(levelData.name)) solver solution doesn't complete: \(moves)")
         }
-        XCTAssertTrue(state.isComplete)
     }
 
-    // #66
-    func test_level13_solvableWithVerifiedSolution() {
-        let level = LevelStore.level13.level
-        var state = GameEngine.createInitialState(for: level)
-        let moves: [Direction] = [.down, .right, .left, .up, .right, .down, .up, .left, .up, .down, .left]
-        for move in moves {
-            GameEngine.applyMove(direction: move, state: &state)
-            state.phase = .awaitingInput
-        }
-        XCTAssertTrue(state.isComplete)
+    func test_level12_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level12, name: "level12")
     }
 
-    // #67
-    func test_level14_solvableWithVerifiedSolution() {
-        let level = LevelStore.level14.level
-        var state = GameEngine.createInitialState(for: level)
-        let moves: [Direction] = [.down, .left, .right, .up, .down, .left, .down, .left, .down, .up, .right, .left, .up, .down]
-        for move in moves {
-            GameEngine.applyMove(direction: move, state: &state)
-            state.phase = .awaitingInput
-        }
-        XCTAssertTrue(state.isComplete)
+    func test_level13_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level13, name: "level13")
     }
 
-    // #68
-    func test_level15_solvableWithVerifiedSolution() {
-        let level = LevelStore.level15.level
-        var state = GameEngine.createInitialState(for: level)
-        let moves: [Direction] = [.up, .right, .down, .right, .down, .left, .right, .up, .left, .up, .left, .up, .left, .right, .down]
-        for move in moves {
-            GameEngine.applyMove(direction: move, state: &state)
-            state.phase = .awaitingInput
-        }
-        XCTAssertTrue(state.isComplete)
+    func test_level14_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level14, name: "level14")
     }
 
-    // #69
-    func test_level16_solvableWithVerifiedSolution() {
-        let level = LevelStore.level16.level
+    func test_level15_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level15, name: "level15")
+    }
+
+    func test_level16_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level16, name: "level16")
+    }
+
+    func test_level17_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level17, name: "level17")
+    }
+
+    func test_level18_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level18, name: "level18")
+    }
+
+    func test_level19_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level19, name: "level19")
+    }
+
+    func test_level20_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level20, name: "level20")
+    }
+
+    func test_level21_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level21, name: "level21")
+    }
+
+    func test_level22_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level22, name: "level22")
+    }
+
+    func test_level23_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level23, name: "level23")
+    }
+
+    func test_level24_solvableViaSolver() {
+        verifySolverSolution(LevelStore.level24, name: "level24")
+    }
+
+    // MARK: - Helper
+
+    private func verifySolverSolution(_ levelData: LevelData, name: String) {
+        let level = levelData.level
+        let solution = LevelSolver.solve(level: level, maxMoves: 30)
+        XCTAssertNotNil(solution, "\(name) (\(levelData.name)) has no solution")
+        guard let moves = solution else { return }
+
         var state = GameEngine.createInitialState(for: level)
-        let moves: [Direction] = [.up, .down, .left, .up, .right, .up, .down, .right, .left, .down, .up, .right, .up, .down, .left]
         for move in moves {
             GameEngine.applyMove(direction: move, state: &state)
             state.phase = .awaitingInput
         }
-        XCTAssertTrue(state.isComplete)
+        XCTAssertTrue(state.isComplete,
+            "\(name) (\(levelData.name)) solver solution doesn't complete in \(moves.count) moves")
     }
 
     // MARK: - createInitialState Tests

@@ -10,6 +10,20 @@ enum LevelGenerator {
         let wallDensity: Double
         let minSolutionLength: Int
         let maxSolutionLength: Int
+        /// Minimum number of first-move directions that must lead to a solvable state.
+        /// Set to 2+ to avoid "wrong first move = stuck" levels. Default 2.
+        let minFirstMoveDirections: Int
+
+        init(rows: Int, cols: Int, wallDensity: Double,
+             minSolutionLength: Int, maxSolutionLength: Int,
+             minFirstMoveDirections: Int = 2) {
+            self.rows = rows
+            self.cols = cols
+            self.wallDensity = wallDensity
+            self.minSolutionLength = minSolutionLength
+            self.maxSolutionLength = maxSolutionLength
+            self.minFirstMoveDirections = minFirstMoveDirections
+        }
     }
 
     struct GeneratedLevel {
@@ -37,6 +51,12 @@ enum LevelGenerator {
             ) else { continue }
 
             if solution.count < config.minSolutionLength { continue }
+
+            // Check first-move flexibility
+            if config.minFirstMoveDirections > 1 {
+                let analysis = LevelSolver.analyzeFirstMoves(level: level, maxMoves: config.maxSolutionLength)
+                if analysis.solvableDirections < config.minFirstMoveDirections { continue }
+            }
 
             let quality = LevelSolver.qualityMetrics(level: level, solution: solution)
 
@@ -69,6 +89,11 @@ enum LevelGenerator {
             ) else { continue }
 
             if solution.count < config.minSolutionLength { continue }
+
+            if config.minFirstMoveDirections > 1 {
+                let analysis = LevelSolver.analyzeFirstMoves(level: level, maxMoves: config.maxSolutionLength)
+                if analysis.solvableDirections < config.minFirstMoveDirections { continue }
+            }
 
             let quality = LevelSolver.qualityMetrics(level: level, solution: solution)
             results.append(GeneratedLevel(grid: grid, solution: solution, quality: quality))
