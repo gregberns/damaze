@@ -9,6 +9,7 @@ struct GridView: View {
     let bumpDirection: Direction?
     let shouldPulse: Bool
     let isGridPulsing: Bool
+    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         GeometryReader { geometry in
@@ -20,6 +21,7 @@ struct GridView: View {
             let gridHeight = cellSize * CGFloat(level.rows)
 
             ZStack(alignment: .topLeading) {
+                // Grid cells
                 VStack(spacing: 0) {
                     ForEach(0..<level.rows, id: \.self) { row in
                         HStack(spacing: 0) {
@@ -37,7 +39,13 @@ struct GridView: View {
                         }
                     }
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .strokeBorder(borderColor, lineWidth: 1)
+                )
 
+                // Ball overlay
                 BallView(
                     position: ballPosition,
                     levelColor: levelColor,
@@ -49,7 +57,17 @@ struct GridView: View {
                 .allowsHitTesting(false)
             }
             .frame(width: gridWidth, height: gridHeight)
+            .shadow(
+                color: .black.opacity(colorScheme == .dark ? 0.5 : 0.2),
+                radius: 8, x: 0, y: 4
+            )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+
+    private var borderColor: Color {
+        colorScheme == .dark
+            ? Color.white.opacity(0.08)
+            : Color.black.opacity(0.12)
     }
 }
