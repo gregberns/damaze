@@ -158,35 +158,38 @@ enum LevelStore {
         ])
     )
 
+    // MARK: - Medium-Hard Corridor Levels
+
+    // U-shaped corridor wrapping around interior void
     static let level12 = LevelData(
         name: "The Gallery",
         colorScheme: .red,
         level: try! Level(grid: [
-            [2, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 1],
+            [0, 0, 1, 1, 1, 0],
+            [1, 1, 1, 0, 1, 0],
+            [1, 0, 0, 0, 1, 0],
+            [1, 0, 0, 0, 1, 1],
+            [1, 1, 1, 1, 0, 1],
+            [0, 0, 2, 1, 1, 1],
         ])
     )
 
-    // MARK: - Generated Medium-Large Levels
-
+    // L-shaped with interior void — like reference image 1
     static let level13 = LevelData(
         name: "Wide Open",
         colorScheme: .blue,
         level: try! Level(grid: [
-            [2, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 1],
-            [0, 0, 0, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 0, 0],
+            [1, 0, 0, 0, 1, 0, 0],
+            [1, 0, 0, 0, 1, 1, 1],
+            [1, 1, 0, 0, 0, 0, 1],
+            [0, 1, 0, 0, 0, 0, 1],
+            [0, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 2, 0],
         ])
     )
 
+    // Two areas connected by corridor — like reference image 2
     static let level14 = LevelData(
         name: "The Channels",
         colorScheme: .green,
@@ -201,68 +204,73 @@ enum LevelStore {
         ])
     )
 
+    // Ring corridor around large void
     static let level15 = LevelData(
         name: "Courtyard",
         colorScheme: .orange,
         level: try! Level(grid: [
-            [2, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0],
+            [1, 1, 1, 0, 0, 0, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 0, 0, 1, 1],
+            [0, 0, 1, 0, 0, 0, 1, 0],
+            [0, 0, 1, 1, 2, 1, 1, 0],
         ])
     )
 
+    // S-curve with interior bump
     static let level16 = LevelData(
         name: "River Bend",
         colorScheme: .purple,
         level: try! Level(grid: [
-            [1, 1, 1, 0, 0, 0, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 1, 1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0],
-            [0, 0, 0, 0, 1, 1, 1, 0],
+            [0, 0, 2, 1, 1, 1, 1, 0],
             [0, 0, 0, 0, 0, 0, 1, 0],
-            [0, 0, 0, 0, 0, 0, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 2],
+            [0, 1, 1, 1, 0, 0, 1, 0],
+            [0, 1, 0, 1, 0, 0, 1, 0],
+            [0, 1, 0, 1, 1, 1, 1, 0],
+            [0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0],
         ])
     )
 
+    // Two corridors with interior divider
     static let level17 = LevelData(
         name: "Zigzag",
         colorScheme: .teal,
         level: try! Level(grid: [
-            [2, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0, 0],
             [0, 0, 1, 1, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 1, 1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 0, 1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 0, 1, 0, 0],
+            [1, 1, 1, 0, 0, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 1, 0, 0, 0, 1],
+            [1, 1, 1, 1, 0, 0, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1, 2],
         ])
     )
 
-    // MARK: - Generated Hard Levels
+    // MARK: - Hard Levels
 
+    // Irregular corridor wrapping around void — like reference image 1
     static let level18 = LevelData(
         name: "The Fortress",
         colorScheme: .red,
         level: try! Level(grid: [
-            [0, 0, 0, 0, 0, 0, 0, 2],
-            [0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 0, 0, 0],
+            [1, 0, 0, 0, 1, 0, 0, 0],
+            [1, 0, 0, 0, 1, 1, 1, 0],
+            [1, 1, 0, 0, 0, 0, 1, 0],
+            [0, 1, 0, 0, 0, 0, 1, 0],
+            [0, 1, 1, 0, 0, 1, 1, 0],
+            [0, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0, 0],
         ])
     )
 
+    // Complex corridors with two interior blocks
     static let level19 = LevelData(
         name: "Grand Tour",
         colorScheme: .blue,
@@ -278,6 +286,7 @@ enum LevelStore {
         ])
     )
 
+    // Nested spiral corridors
     static let level20 = LevelData(
         name: "Switchback",
         colorScheme: .green,
@@ -293,6 +302,7 @@ enum LevelStore {
         ])
     )
 
+    // Two L-shapes connected — like reference image 2
     static let level21 = LevelData(
         name: "The Cascade",
         colorScheme: .orange,
@@ -309,52 +319,55 @@ enum LevelStore {
         ])
     )
 
+    // S-corridor connecting two wings
     static let level22 = LevelData(
         name: "Maze Runner",
         colorScheme: .purple,
         level: try! Level(grid: [
-            [1, 1, 1, 1, 1, 0, 1, 1, 1],
-            [1, 0, 0, 0, 1, 0, 1, 0, 1],
-            [1, 0, 0, 0, 1, 1, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 0, 0, 0, 1, 1, 1],
-            [0, 0, 1, 0, 0, 0, 1, 0, 0],
-            [0, 0, 1, 1, 1, 1, 1, 0, 0],
-            [0, 0, 0, 0, 2, 0, 0, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 0, 0, 0, 0, 1, 0, 0],
+            [0, 1, 1, 1, 1, 0, 1, 0, 0],
+            [0, 0, 0, 0, 1, 0, 1, 1, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [0, 0, 0, 0, 1, 1, 0, 0, 1],
+            [0, 0, 0, 0, 0, 1, 0, 0, 1],
+            [0, 0, 0, 0, 0, 1, 1, 2, 1],
         ])
     )
 
+    // Large spiral — corridors wrapping around nested voids
     static let level23 = LevelData(
         name: "The Labyrinth",
         colorScheme: .teal,
         level: try! Level(grid: [
-            [2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [1, 0, 1, 1, 1, 1, 0, 1, 0, 0],
+            [1, 0, 1, 0, 0, 1, 0, 1, 1, 1],
+            [1, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+            [1, 0, 1, 1, 0, 1, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
         ])
     )
 
+    // Diamond ring with extensions
     static let level24 = LevelData(
         name: "Colosseum",
         colorScheme: .red,
         level: try! Level(grid: [
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+            [1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
+            [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 1, 1, 2, 1, 1, 0, 0],
         ])
     )
 
