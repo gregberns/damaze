@@ -14,6 +14,19 @@ The single source of truth for implementation:
 # Generate Xcode project (run after any project.yml or file structure change)
 xcodegen generate
 
+# Run tests (PREFERRED — handles simulator boot, output filtering, timeout)
+scripts/test.sh
+
+# Run tests skipping xcodegen (faster when project.yml hasn't changed)
+scripts/test.sh quick
+
+# Build only (no tests)
+scripts/test.sh build
+```
+
+### Manual commands (use scripts/test.sh instead)
+
+```bash
 # Build for simulator
 xcodebuild -scheme Damaze -sdk iphonesimulator \
   -destination 'platform=iOS Simulator,name=iPhone 16' \
