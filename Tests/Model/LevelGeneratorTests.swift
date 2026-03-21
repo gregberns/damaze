@@ -99,21 +99,36 @@ final class LevelGeneratorTests: XCTestCase {
     }
 
     // MARK: - Level Generation Output (for curating LevelStore)
-    // Run this test to see candidate levels printed to console
 
     func test_printCandidateLevels() {
         let tiers: [(name: String, config: LevelGenerator.Config)] = [
-            ("EASY 4x4", LevelGenerator.Config(rows: 4, cols: 4, wallDensity: 0.15, minSolutionLength: 3, maxSolutionLength: 6)),
-            ("EASY 5x4", LevelGenerator.Config(rows: 5, cols: 4, wallDensity: 0.2, minSolutionLength: 4, maxSolutionLength: 7)),
-            ("MEDIUM 5x5", LevelGenerator.Config(rows: 5, cols: 5, wallDensity: 0.25, minSolutionLength: 5, maxSolutionLength: 10)),
-            ("MEDIUM 6x5", LevelGenerator.Config(rows: 6, cols: 5, wallDensity: 0.3, minSolutionLength: 6, maxSolutionLength: 12)),
-            ("HARD 6x6", LevelGenerator.Config(rows: 6, cols: 6, wallDensity: 0.3, minSolutionLength: 7, maxSolutionLength: 15)),
-            ("HARD 7x7", LevelGenerator.Config(rows: 7, cols: 7, wallDensity: 0.35, minSolutionLength: 8, maxSolutionLength: 20)),
+            // Replacements for bad medium levels (8, 9, 10)
+            ("MEDIUM-REPLACE 5x5", LevelGenerator.Config(rows: 5, cols: 5, wallDensity: 0.25, minSolutionLength: 8, maxSolutionLength: 12)),
+            ("MEDIUM-REPLACE 6x5", LevelGenerator.Config(rows: 6, cols: 5, wallDensity: 0.3, minSolutionLength: 8, maxSolutionLength: 12)),
+            // New medium levels (6x6 to 9x9, 8-14 moves)
+            ("MEDIUM 6x6", LevelGenerator.Config(rows: 6, cols: 6, wallDensity: 0.3, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 7x6", LevelGenerator.Config(rows: 7, cols: 6, wallDensity: 0.35, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 7x7", LevelGenerator.Config(rows: 7, cols: 7, wallDensity: 0.35, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 8x7", LevelGenerator.Config(rows: 8, cols: 7, wallDensity: 0.4, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 8x8", LevelGenerator.Config(rows: 8, cols: 8, wallDensity: 0.4, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 9x9", LevelGenerator.Config(rows: 9, cols: 9, wallDensity: 0.45, minSolutionLength: 8, maxSolutionLength: 14)),
+            // Replacement for level 12
+            ("MEDIUM-HARD 7x7", LevelGenerator.Config(rows: 7, cols: 7, wallDensity: 0.35, minSolutionLength: 10, maxSolutionLength: 16)),
+            // New hard levels (8x8 to 12x12, 15-25+ moves)
+            ("HARD 8x8", LevelGenerator.Config(rows: 8, cols: 8, wallDensity: 0.4, minSolutionLength: 14, maxSolutionLength: 25)),
+            ("HARD 9x9", LevelGenerator.Config(rows: 9, cols: 9, wallDensity: 0.45, minSolutionLength: 14, maxSolutionLength: 25)),
+            ("HARD 10x10", LevelGenerator.Config(rows: 10, cols: 10, wallDensity: 0.5, minSolutionLength: 15, maxSolutionLength: 25)),
+            ("HARD 11x11", LevelGenerator.Config(rows: 11, cols: 11, wallDensity: 0.55, minSolutionLength: 15, maxSolutionLength: 25)),
+            ("HARD 12x12", LevelGenerator.Config(rows: 12, cols: 12, wallDensity: 0.6, minSolutionLength: 15, maxSolutionLength: 25)),
         ]
 
         for (tierName, config) in tiers {
             print("\n// === \(tierName) ===")
-            let levels = LevelGenerator.generateBatch(config: config, count: 5, maxAttemptsPerLevel: 3000)
+            let levels = LevelGenerator.generateBatch(config: config, count: 5, maxAttemptsPerLevel: 5000)
+            if levels.isEmpty {
+                print("// NO LEVELS GENERATED")
+                continue
+            }
             for (i, level) in levels.prefix(3).enumerated() {
                 let dirs = level.solution.map { dir -> String in
                     switch dir {
@@ -123,7 +138,7 @@ final class LevelGeneratorTests: XCTestCase {
                     case .right: return ".right"
                     }
                 }.joined(separator: ", ")
-                print("// \(tierName) #\(i+1): \(level.solution.count) moves, score=\(String(format: "%.1f", level.quality.score)), forced=\(level.quality.forcedMoves)")
+                print("// \(tierName) #\(i+1): \(level.solution.count) moves, score=\(String(format: "%.1f", level.quality.score)), forced=\(level.quality.forcedMoves), firstMoveRatio=\(String(format: "%.0f%%", level.quality.firstMoveSolvableRatio * 100))")
                 print("// Solution: [\(dirs)]")
                 for row in level.grid {
                     print("//   \(row),")

@@ -20,6 +20,7 @@ enum LevelGenerator {
 
     /// Generates the best solvable level matching the config constraints.
     /// Returns nil if no valid level found within maxAttempts.
+    /// Rejects levels where >50% of valid first moves lead to unsolvable states.
     static func generate(config: Config, maxAttempts: Int = 5000) -> GeneratedLevel? {
         var bestResult: GeneratedLevel?
         var bestScore: Double = -.infinity
@@ -40,6 +41,9 @@ enum LevelGenerator {
 
             let quality = LevelSolver.qualityMetrics(level: level, solution: solution)
 
+            // Reject levels with poor first-move solvability
+            if quality.firstMoveSolvableRatio < 0.5 { continue }
+
             if quality.score > bestScore {
                 bestScore = quality.score
                 bestResult = GeneratedLevel(grid: grid, solution: solution, quality: quality)
@@ -50,6 +54,7 @@ enum LevelGenerator {
     }
 
     /// Generates multiple distinct levels matching the config.
+    /// Rejects levels where >50% of valid first moves lead to unsolvable states.
     static func generateBatch(config: Config, count: Int, maxAttemptsPerLevel: Int = 3000) -> [GeneratedLevel] {
         var results: [GeneratedLevel] = []
         let totalAttempts = count * maxAttemptsPerLevel
@@ -71,6 +76,10 @@ enum LevelGenerator {
             if solution.count < config.minSolutionLength { continue }
 
             let quality = LevelSolver.qualityMetrics(level: level, solution: solution)
+
+            // Reject levels with poor first-move solvability
+            if quality.firstMoveSolvableRatio < 0.5 { continue }
+
             results.append(GeneratedLevel(grid: grid, solution: solution, quality: quality))
         }
 
