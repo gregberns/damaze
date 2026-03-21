@@ -85,8 +85,8 @@ final class LevelTests: XCTestCase {
 
     // #35
     func test_levelInit_gridTooLarge_throws() {
-        let row = [2, 1, 1, 1, 1, 1, 1, 1]
-        let grid = Array(repeating: row, count: 8)
+        let row = [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        let grid = Array(repeating: row, count: 13)
         XCTAssertThrowsError(try Level(grid: grid))
     }
 }

@@ -22,7 +22,7 @@ struct Level {
         let rows = rawGrid.count
         let cols = rawGrid[0].count
 
-        guard rows <= 7, cols <= 7 else {
+        guard rows <= 12, cols <= 12 else {
             throw LevelError.gridTooLarge(rows: rows, cols: cols)
         }
 

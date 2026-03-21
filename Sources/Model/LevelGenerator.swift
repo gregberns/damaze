@@ -126,8 +126,9 @@ enum LevelGenerator {
             }
         }
 
-        // Require minimum floor tiles for an interesting puzzle
-        guard bestComponent.count >= 8 else { return nil }
+        // Require minimum floor tiles for an interesting puzzle (scales with grid size)
+        let minFloorTiles = max(8, (rows * cols) / 6)
+        guard bestComponent.count >= minFloorTiles else { return nil }
 
         // Remove tiles not in the largest connected component
         let componentSet = Set(bestComponent)
