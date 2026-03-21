@@ -581,12 +581,11 @@ final class GameEngineTests: XCTestCase {
         verifySolverSolution(LevelStore.level22, name: "level22")
     }
 
-    func test_level23_solvableViaSolver() {
-        verifySolverSolution(LevelStore.level23, name: "level23")
-    }
-
-    func test_level24_solvableViaSolver() {
-        verifySolverSolution(LevelStore.level24, name: "level24")
+    func test_allNewLevels_solvableViaSolver() {
+        for (index, levelData) in LevelStore.allLevels.enumerated() {
+            let solution = LevelSolver.solve(level: levelData.level)
+            XCTAssertNotNil(solution, "Level \(index + 1) (\(levelData.name)) has no solution")
+        }
     }
 
     // MARK: - Helper
