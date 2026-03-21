@@ -15,20 +15,20 @@
 		6B5137D6A697E0B89ED5313F /* GameEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF446D5EDAFFB36CF9D2E597 /* GameEngineTests.swift */; };
 		7B147234FD50F8D88EB54333 /* GridPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0EE8085F82FD1860763E77 /* GridPosition.swift */; };
 		7DDC8A3FB24B81446FCBE66D /* LevelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA1378DF119B278174323A4 /* LevelStore.swift */; };
-		C2D3E4F5A6B7C8D9E0F1A2B3 /* LevelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5A6B7C8D9E0F1A2 /* LevelGenerator.swift */; };
-		D3E4F5A6B7C8D9E0F1A2B3C4 /* LevelProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* LevelProgress.swift */; };
 		A7B8C9D0E1F2A3B4C5D6E7F8 /* LevelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A6B7C8D9E0F1A2B3C4D5E6 /* LevelSelectView.swift */; };
-		E5F6A7B8C9D0E1F2A3B4C5D6 /* LevelSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* LevelSolver.swift */; };
 		B642C05A32462BDA7F4872C7 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44290B743A959EEE1CC39768 /* GameState.swift */; };
 		B9D8D5A213C3BA45FEDD72DA /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF20585CDA47B22262E22E /* Level.swift */; };
 		BD0AC170E1EC9117EF06B843 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D1B32A7A5661355872F640 /* GameEngine.swift */; };
+		C2D3E4F5A6B7C8D9E0F1A2B3 /* LevelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5A6B7C8D9E0F1A2 /* LevelGenerator.swift */; };
 		C6F2B99EDB861FB1B883E07F /* CompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6723A508B1A4ECDA10C1438A /* CompletionView.swift */; };
 		C75611E75D431666BFB73C80 /* InputMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ACBB1681D57A0B62C8CD505 /* InputMapperTests.swift */; };
 		C87192BCA742EC88161D6312 /* MoveResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574E3F07E2025F535892E5A3 /* MoveResult.swift */; };
 		CB4F96BBD54351E1D3DD1193 /* GamePhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D084E7507298E91B914A00 /* GamePhase.swift */; };
 		D0CBDD0552207A93F10EBC28 /* CellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533872CF52435E5229F7E8EB /* CellType.swift */; };
+		D3E4F5A6B7C8D9E0F1A2B3C4 /* LevelProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F2 /* LevelProgress.swift */; };
 		DA204123C2B8385CCC6E1F6B /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AE2ABC6FDCC8792A168323 /* HUDView.swift */; };
 		E031FCFAC09B76C34F878E63 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F788D3D0ED90E75ACD9E7CA /* GameViewModel.swift */; };
+		E5F6A7B8C9D0E1F2A3B4C5D6 /* LevelSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6A7B8C9D0E1F2A3B4C5 /* LevelSolver.swift */; };
 		EA9B7A53232BA6C6BB542B89 /* BallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3869E3930955F55D7BF46901 /* BallView.swift */; };
 		EC1F49186920514E978B46EE /* DirectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7568F07C0ECA557FBDE4FD5 /* DirectionTests.swift */; };
 		F4D45A0DA77BBC800A9617CD /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618756711921083671A02B1F /* Direction.swift */; };
@@ -63,19 +63,19 @@
 		73186A26FE2A464C81F164E5 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		7ACBB1681D57A0B62C8CD505 /* InputMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputMapperTests.swift; sourceTree = "<group>"; };
 		8DA1378DF119B278174323A4 /* LevelStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelStore.swift; sourceTree = "<group>"; };
-		B1C2D3E4F5A6B7C8D9E0F1A2 /* LevelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelGenerator.swift; sourceTree = "<group>"; };
-		A1B2C3D4E5F6A7B8C9D0E1F2 /* LevelProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelProgress.swift; sourceTree = "<group>"; };
-		D4E5F6A7B8C9D0E1F2A3B4C5 /* LevelSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSolver.swift; sourceTree = "<group>"; };
-		F5A6B7C8D9E0F1A2B3C4D5E6 /* LevelSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectView.swift; sourceTree = "<group>"; };
 		9F788D3D0ED90E75ACD9E7CA /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* LevelProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelProgress.swift; sourceTree = "<group>"; };
 		AAA43155C2AF661BEC909E35 /* LevelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelTests.swift; sourceTree = "<group>"; };
 		AF446D5EDAFFB36CF9D2E597 /* GameEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngineTests.swift; sourceTree = "<group>"; };
-		B5BFC3B690F952956849C300 /* Damaze.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Damaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1C2D3E4F5A6B7C8D9E0F1A2 /* LevelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelGenerator.swift; sourceTree = "<group>"; };
+		B5BFC3B690F952956849C300 /* Damaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Damaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7568F07C0ECA557FBDE4FD5 /* DirectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionTests.swift; sourceTree = "<group>"; };
 		C7DD71D5F110E399B0723F73 /* DamazeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DamazeApp.swift; sourceTree = "<group>"; };
 		CE0EE8085F82FD1860763E77 /* GridPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridPosition.swift; sourceTree = "<group>"; };
+		D4E5F6A7B8C9D0E1F2A3B4C5 /* LevelSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSolver.swift; sourceTree = "<group>"; };
 		D7AE2ABC6FDCC8792A168323 /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		E45950304558DE87101BF90A /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		F5A6B7C8D9E0F1A2B3C4D5E6 /* LevelSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -224,8 +224,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = ADD3C6C219D94D16EF674B29 /* Build configuration list for PBXProject "Damaze" */;
 			developmentRegion = en;
@@ -370,6 +368,7 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S8QK3XFRW4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -481,6 +480,7 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S8QK3XFRW4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
