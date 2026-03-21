@@ -10,6 +10,8 @@ struct GridView: View {
     let shouldPulse: Bool
     let isGridPulsing: Bool
 
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         GeometryReader { geometry in
             let padding: CGFloat = 16
@@ -37,6 +39,13 @@ struct GridView: View {
                         }
                     }
                 }
+                .clipShape(RoundedRectangle(cornerRadius: 4))
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(boardColor)
+                        .shadow(color: .black.opacity(0.4), radius: 8, x: 0, y: 4)
+                        .padding(-4)
+                )
 
                 BallView(
                     position: ballPosition,
@@ -51,5 +60,11 @@ struct GridView: View {
             .frame(width: gridWidth, height: gridHeight)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+
+    private var boardColor: Color {
+        colorScheme == .dark
+            ? Color(red: 0.08, green: 0.08, blue: 0.10)
+            : Color(red: 0.30, green: 0.29, blue: 0.32)
     }
 }

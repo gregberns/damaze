@@ -3,6 +3,8 @@ import SwiftUI
 struct CompletionView: View {
     let onPlayAgain: () -> Void
 
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         VStack(spacing: 16) {
             Text("Congratulations!")
@@ -22,6 +24,15 @@ struct CompletionView: View {
                 .padding(.top, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemBackground))
+        .background {
+            completionBackground
+                .ignoresSafeArea()
+        }
+    }
+
+    private var completionBackground: Color {
+        colorScheme == .dark
+            ? Color(red: 0.06, green: 0.06, blue: 0.08)
+            : Color(red: 0.95, green: 0.93, blue: 0.90)
     }
 }
