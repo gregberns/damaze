@@ -4,6 +4,24 @@ enum LevelSolver {
     /// Attempts to find the shortest move sequence that paints all floor tiles.
     /// Returns nil if no solution exists within the given constraints.
     static func solve(level: Level, maxMoves: Int = 30, maxStates: Int = 2_000_000) -> [Direction]? {
+        solveFromState(
+            level: level,
+            position: level.startPosition,
+            paintedTiles: [level.startPosition],
+            maxMoves: maxMoves,
+            maxStates: maxStates
+        )
+    }
+
+    /// Solves from a custom starting state (position + painted tiles).
+    /// Used to check if a level remains solvable after specific moves.
+    static func solveFromState(
+        level: Level,
+        position: GridPosition,
+        paintedTiles: Set<GridPosition>,
+        maxMoves: Int = 30,
+        maxStates: Int = 2_000_000
+    ) -> [Direction]? {
         // Map each floor/start tile to a bit index for bitmask representation
         var tileIndex: [GridPosition: Int] = [:]
         var idx = 0
@@ -46,9 +64,13 @@ enum LevelSolver {
             moveTable[pos] = moves
         }
 
-        // Initial state
-        guard let startBit = tileIndex[level.startPosition] else { return nil }
-        let initialPainted: UInt64 = 1 << startBit
+        // Build initial painted bitmask
+        var initialPainted: UInt64 = 0
+        for tile in paintedTiles {
+            if let bitIdx = tileIndex[tile] {
+                initialPainted |= (1 << bitIdx)
+            }
+        }
 
         if initialPainted == goalMask { return [] }
 
@@ -65,8 +87,8 @@ enum LevelSolver {
         }
 
         let initialState = State(
-            row: Int16(level.startPosition.row),
-            col: Int16(level.startPosition.col),
+            row: Int16(position.row),
+            col: Int16(position.col),
             painted: initialPainted
         )
 
@@ -120,13 +142,61 @@ enum LevelSolver {
         return nil
     }
 
+    /// Returns which first-move directions lead to solvable states.
+    static func viableFirstMoves(level: Level, maxMoves: Int = 30, maxStates: Int = 500_000) -> [Direction] {
+        var viable: [Direction] = []
+        for dir in Direction.allCases {
+            let path = GameEngine.computePath(
+                from: level.startPosition,
+                direction: dir,
+                grid: level.grid,
+                rows: level.rows,
+                cols: level.cols
+            )
+            guard !path.isEmpty else { continue }
+
+            // Simulate the first move
+            var paintedTiles: Set<GridPosition> = [level.startPosition]
+            for pos in path {
+                paintedTiles.insert(pos)
+            }
+            let newPos = path.last!
+
+            // Check if remaining puzzle is solvable
+            if solveFromState(
+                level: level,
+                position: newPos,
+                paintedTiles: paintedTiles,
+                maxMoves: maxMoves - 1,
+                maxStates: maxStates
+            ) != nil {
+                viable.append(dir)
+            }
+        }
+        return viable
+    }
+
+    /// Returns directions that produce a non-empty path from the start position.
+    static func validFirstMoves(level: Level) -> [Direction] {
+        Direction.allCases.filter { dir in
+            !GameEngine.computePath(
+                from: level.startPosition,
+                direction: dir,
+                grid: level.grid,
+                rows: level.rows,
+                cols: level.cols
+            ).isEmpty
+        }
+    }
+
     /// Computes quality metrics for a solved level.
     static func qualityMetrics(level: Level, solution: [Direction]) -> QualityMetrics {
         let solutionLength = solution.count
         guard solutionLength > 0 else {
             return QualityMetrics(
                 solutionLength: 0, forcedMoves: 0,
-                backtrackTiles: 0, directionsUsed: 0, score: 0
+                backtrackTiles: 0, directionsUsed: 0,
+                viableFirstMoves: 0, score: 0
             )
         }
 
@@ -168,20 +238,35 @@ enum LevelSolver {
             backtrackTiles += result.path.filter { paintedBefore.contains($0) }.count
         }
 
+        // Compute viable first moves for flexibility scoring
+        let viable = viableFirstMoves(level: level, maxMoves: 30, maxStates: 500_000)
+        let valid = validFirstMoves(level: level)
+
         let nonForcedRatio = 1.0 - Double(forcedMoves) / Double(solutionLength)
         let directionVariety = Double(directionsUsed.count) / 4.0
         let backtrackRatio = min(Double(backtrackTiles) / Double(level.floorTileCount), 0.5)
+
+        // First-move flexibility: penalize levels where most starting directions are dead ends
+        let firstMoveFlexibility: Double
+        if valid.isEmpty {
+            firstMoveFlexibility = -50.0
+        } else {
+            let ratio = Double(viable.count) / Double(valid.count)
+            firstMoveFlexibility = ratio < 0.5 ? -20.0 : ratio * 20.0
+        }
 
         let score = nonForcedRatio * 40.0
             + directionVariety * 20.0
             + backtrackRatio * 20.0
             + Double(solutionLength) * 2.0
+            + firstMoveFlexibility
 
         return QualityMetrics(
             solutionLength: solutionLength,
             forcedMoves: forcedMoves,
             backtrackTiles: backtrackTiles,
             directionsUsed: directionsUsed.count,
+            viableFirstMoves: viable.count,
             score: score
         )
     }
@@ -192,5 +277,6 @@ struct QualityMetrics {
     let forcedMoves: Int
     let backtrackTiles: Int
     let directionsUsed: Int
+    let viableFirstMoves: Int
     let score: Double
 }

@@ -98,23 +98,56 @@ final class LevelGeneratorTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(levels.count, 1, "Should generate at least 1 level")
     }
 
-    // MARK: - Level Generation Output (for curating LevelStore)
-    // Run this test to see candidate levels printed to console
+    func test_randomGrid_respectsFloorTileLimit() {
+        // Large grid with low wall density might exceed 64 floor tiles
+        // Generator should reject these
+        var allUnder64 = true
+        for _ in 0..<50 {
+            if let (_, level) = LevelGenerator.randomGrid(rows: 10, cols: 10, wallDensity: 0.2) {
+                if level.floorTileCount > 64 {
+                    allUnder64 = false
+                    break
+                }
+            }
+        }
+        XCTAssertTrue(allUnder64, "Generator should not produce grids with >64 floor tiles")
+    }
+
+    // MARK: - Audit & Generation Output
+
+    func test_audit_allLevels_firstMoveFlexibility() {
+        for (i, levelData) in LevelStore.allLevels.enumerated() {
+            let level = levelData.level
+            let viable = LevelSolver.viableFirstMoves(level: level)
+            let valid = LevelSolver.validFirstMoves(level: level)
+            let solution = LevelSolver.solve(level: level)
+            let quality = solution.map { LevelSolver.qualityMetrics(level: level, solution: $0) }
+
+            print("AUDIT Level \(i+1) (\(levelData.name)): " +
+                  "viable=\(viable.count)/\(valid.count) first moves, " +
+                  "solution=\(solution?.count ?? -1) moves, " +
+                  "score=\(String(format: "%.1f", quality?.score ?? 0)), " +
+                  "viable_dirs=\(viable), " +
+                  "forced=\(quality?.forcedMoves ?? 0)")
+        }
+    }
 
     func test_printCandidateLevels() {
         let tiers: [(name: String, config: LevelGenerator.Config)] = [
-            ("EASY 4x4", LevelGenerator.Config(rows: 4, cols: 4, wallDensity: 0.15, minSolutionLength: 3, maxSolutionLength: 6)),
-            ("EASY 5x4", LevelGenerator.Config(rows: 5, cols: 4, wallDensity: 0.2, minSolutionLength: 4, maxSolutionLength: 7)),
-            ("MEDIUM 5x5", LevelGenerator.Config(rows: 5, cols: 5, wallDensity: 0.25, minSolutionLength: 5, maxSolutionLength: 10)),
-            ("MEDIUM 6x5", LevelGenerator.Config(rows: 6, cols: 5, wallDensity: 0.3, minSolutionLength: 6, maxSolutionLength: 12)),
-            ("HARD 6x6", LevelGenerator.Config(rows: 6, cols: 6, wallDensity: 0.3, minSolutionLength: 7, maxSolutionLength: 15)),
-            ("HARD 7x7", LevelGenerator.Config(rows: 7, cols: 7, wallDensity: 0.35, minSolutionLength: 8, maxSolutionLength: 20)),
+            ("MEDIUM 6x6", LevelGenerator.Config(rows: 6, cols: 6, wallDensity: 0.30, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 7x7", LevelGenerator.Config(rows: 7, cols: 7, wallDensity: 0.35, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 8x7", LevelGenerator.Config(rows: 8, cols: 7, wallDensity: 0.40, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("MEDIUM 9x8", LevelGenerator.Config(rows: 9, cols: 8, wallDensity: 0.45, minSolutionLength: 8, maxSolutionLength: 14)),
+            ("HARD 8x8", LevelGenerator.Config(rows: 8, cols: 8, wallDensity: 0.45, minSolutionLength: 15, maxSolutionLength: 25)),
+            ("HARD 9x9", LevelGenerator.Config(rows: 9, cols: 9, wallDensity: 0.50, minSolutionLength: 15, maxSolutionLength: 25)),
+            ("HARD 10x10", LevelGenerator.Config(rows: 10, cols: 10, wallDensity: 0.55, minSolutionLength: 15, maxSolutionLength: 25)),
+            ("HARD 12x10", LevelGenerator.Config(rows: 12, cols: 10, wallDensity: 0.60, minSolutionLength: 15, maxSolutionLength: 25)),
         ]
 
         for (tierName, config) in tiers {
             print("\n// === \(tierName) ===")
-            let levels = LevelGenerator.generateBatch(config: config, count: 5, maxAttemptsPerLevel: 3000)
-            for (i, level) in levels.prefix(3).enumerated() {
+            let levels = LevelGenerator.generateBatch(config: config, count: 3, maxAttemptsPerLevel: 5000)
+            for (i, level) in levels.prefix(2).enumerated() {
                 let dirs = level.solution.map { dir -> String in
                     switch dir {
                     case .up: return ".up"
@@ -123,11 +156,15 @@ final class LevelGeneratorTests: XCTestCase {
                     case .right: return ".right"
                     }
                 }.joined(separator: ", ")
-                print("// \(tierName) #\(i+1): \(level.solution.count) moves, score=\(String(format: "%.1f", level.quality.score)), forced=\(level.quality.forcedMoves)")
+                print("// \(tierName) #\(i+1): \(level.solution.count) moves, score=\(String(format: "%.1f", level.quality.score)), viable=\(level.quality.viableFirstMoves), forced=\(level.quality.forcedMoves)")
                 print("// Solution: [\(dirs)]")
+                print("// Grid:")
                 for row in level.grid {
                     print("//   \(row),")
                 }
+            }
+            if levels.isEmpty {
+                print("// NO LEVELS GENERATED for \(tierName)")
             }
         }
     }

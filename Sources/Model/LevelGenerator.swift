@@ -130,6 +130,9 @@ enum LevelGenerator {
         let minFloorTiles = max(8, (rows * cols) / 6)
         guard bestComponent.count >= minFloorTiles else { return nil }
 
+        // Solver uses UInt64 bitmask — cap at 64 floor tiles
+        guard bestComponent.count <= 64 else { return nil }
+
         // Remove tiles not in the largest connected component
         let componentSet = Set(bestComponent)
         for r in 0..<rows {

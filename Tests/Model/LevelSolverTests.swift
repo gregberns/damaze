@@ -91,7 +91,38 @@ final class LevelSolverTests: XCTestCase {
         ])
         let metrics = LevelSolver.qualityMetrics(level: level, solution: [])
         XCTAssertEqual(metrics.solutionLength, 0)
+        XCTAssertEqual(metrics.viableFirstMoves, 0)
         XCTAssertEqual(metrics.score, 0)
+    }
+
+    func test_viableFirstMoves_level1_hasMultipleOptions() {
+        let level = LevelStore.level1.level
+        let viable = LevelSolver.viableFirstMoves(level: level)
+        XCTAssertGreaterThanOrEqual(viable.count, 1, "Level 1 should have at least 1 viable first move")
+    }
+
+    func test_solveFromState_afterFirstMove_findsSolution() {
+        let level = LevelStore.level1.level
+        // Make first move left from start (3,3) -> slides to (3,0)
+        let path = GameEngine.computePath(
+            from: level.startPosition,
+            direction: .left,
+            grid: level.grid,
+            rows: level.rows,
+            cols: level.cols
+        )
+        guard !path.isEmpty else {
+            XCTFail("First move left should be valid")
+            return
+        }
+        var painted: Set<GridPosition> = [level.startPosition]
+        for p in path { painted.insert(p) }
+        let solution = LevelSolver.solveFromState(
+            level: level,
+            position: path.last!,
+            paintedTiles: painted
+        )
+        XCTAssertNotNil(solution, "Should find remaining solution after first move")
     }
 
     // MARK: - Solver Validates All LevelStore Levels
