@@ -10,11 +10,13 @@ The single source of truth for implementation:
 
 ## Build Commands
 
+**IMPORTANT: ALWAYS use scripts/test.sh. NEVER run xcodebuild directly — it will stall your session.**
+
 ```bash
 # Generate Xcode project (run after any project.yml or file structure change)
 xcodegen generate
 
-# Run tests (PREFERRED — handles simulator boot, output filtering, timeout)
+# Run tests (handles simulator boot, output filtering, timeout)
 scripts/test.sh
 
 # Run tests skipping xcodegen (faster when project.yml hasn't changed)
@@ -22,22 +24,6 @@ scripts/test.sh quick
 
 # Build only (no tests)
 scripts/test.sh build
-```
-
-### Manual commands (use scripts/test.sh instead)
-
-```bash
-# Build for simulator
-xcodebuild -scheme Damaze -sdk iphonesimulator \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
-  CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-  build 2>&1 | xcsift
-
-# Run tests
-xcodebuild -scheme DamazeTests -sdk iphonesimulator \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
-  CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-  test 2>&1 | xcsift
 ```
 
 ## Architecture Rules
@@ -48,7 +34,7 @@ xcodebuild -scheme DamazeTests -sdk iphonesimulator \
 
 ## Quality Standards
 
-- All tests must pass before committing: `xcodebuild test`
+- All tests must pass before committing: `scripts/test.sh quick`
 - Test naming convention: `test_<unit>_<scenario>_<expectedResult>()`
 - Every level ships with a verified solution sequence tested in GameEngineTests
 - No SwiftUI imports in Model/ files — enforce this as a hard boundary
