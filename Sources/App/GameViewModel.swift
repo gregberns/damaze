@@ -2,6 +2,9 @@ import SwiftUI
 
 @Observable
 class GameViewModel {
+    // Navigation state
+    var isShowingLevelSelect: Bool
+
     // Core state
     var gameState: GameState
     var currentLevelIndex: Int
@@ -38,10 +41,12 @@ class GameViewModel {
     }
 
     init() {
-        let levelData = LevelStore.allLevels[0]
+        let startIndex = LevelProgress.nextUnsolvedIndex() ?? 0
+        let levelData = LevelStore.allLevels[startIndex]
         let state = GameEngine.createInitialState(for: levelData.level)
+        self.isShowingLevelSelect = true
         self.gameState = state
-        self.currentLevelIndex = 0
+        self.currentLevelIndex = startIndex
         self.isShowingCompletion = false
         self.animatingBallPosition = state.ballPosition
         self.bufferedDirection = nil
@@ -113,6 +118,7 @@ class GameViewModel {
             gameState.phase = .won
             bufferedDirection = nil
             winMoveCount = gameState.moveCount
+            LevelProgress.markCompleted(levelIndex: currentLevelIndex, moves: gameState.moveCount)
             startWinSequence()
         } else {
             gameState.phase = .awaitingInput
@@ -208,6 +214,29 @@ class GameViewModel {
         bufferedDirection = nil
         isAnimatingMovement = false
         visuallyPaintedTiles = gameState.paintedTiles
+        resetWinState()
+    }
+
+    func selectLevel(index: Int) {
+        generation += 1
+        currentLevelIndex = index
+        let levelData = LevelStore.allLevels[index]
+        gameState = GameEngine.createInitialState(for: levelData.level)
+        animatingBallPosition = gameState.ballPosition
+        bufferedDirection = nil
+        isBumping = false
+        bumpDirection = nil
+        isShowingCompletion = false
+        isAnimatingMovement = false
+        visuallyPaintedTiles = gameState.paintedTiles
+        resetWinState()
+        isShowingLevelSelect = false
+    }
+
+    func showLevelSelect() {
+        generation += 1
+        isShowingLevelSelect = true
+        isShowingCompletion = false
         resetWinState()
     }
 }

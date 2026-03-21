@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CompletionView: View {
     let onPlayAgain: () -> Void
+    var onLevelSelect: (() -> Void)?
 
     var body: some View {
         VStack(spacing: 16) {
@@ -20,6 +21,12 @@ struct CompletionView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.blue)
                 .padding(.top, 8)
+
+            if let onLevelSelect {
+                Button("Level Select", action: onLevelSelect)
+                    .buttonStyle(.bordered)
+                    .padding(.top, 4)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))

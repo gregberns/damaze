@@ -6,7 +6,13 @@ struct DamazeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            GameView(viewModel: viewModel)
+            if viewModel.isShowingLevelSelect {
+                LevelSelectView(onSelectLevel: viewModel.selectLevel)
+                    .transition(.opacity)
+            } else {
+                GameView(viewModel: viewModel)
+                    .transition(.opacity)
+            }
         }
     }
 }

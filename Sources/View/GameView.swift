@@ -18,7 +18,7 @@ struct GameView: View {
 
     var body: some View {
         if viewModel.isShowingCompletion {
-            CompletionView(onPlayAgain: viewModel.playAgain)
+            CompletionView(onPlayAgain: viewModel.playAgain, onLevelSelect: viewModel.showLevelSelect)
                 .transition(.opacity)
         } else {
             let levelData = LevelStore.allLevels[viewModel.currentLevelIndex]
@@ -29,7 +29,8 @@ struct GameView: View {
                     HUDView(
                         levelNumber: viewModel.currentLevelIndex + 1,
                         moveCount: viewModel.moveCount,
-                        onRestart: viewModel.restart
+                        onRestart: viewModel.restart,
+                        onLevelSelect: viewModel.showLevelSelect
                     )
                     .padding(.top, 8)
 
