@@ -26,6 +26,10 @@ scripts/test.sh quick
 scripts/test.sh build
 ```
 
+## Do NOT Modify
+
+- **project.yml code signing**: Do NOT add `CODE_SIGNING_ALLOWED: false` or any code signing settings to project.yml. Code signing is disabled only at test time via scripts/test.sh flags. The project.yml must allow signing for real device deployment.
+
 ## Architecture Rules
 
 1. **Model layer has ZERO SwiftUI imports.** Files in `Sources/Model/` import only Foundation or nothing. Any SwiftUI import in Model/ is a bug.
