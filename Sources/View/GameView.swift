@@ -3,12 +3,12 @@ import SwiftUI
 extension LevelColorScheme {
     var color: Color {
         switch self {
-        case .blue: return Color(red: 0.25, green: 0.52, blue: 0.95)
-        case .green: return Color(red: 0.20, green: 0.78, blue: 0.45)
-        case .orange: return Color(red: 0.98, green: 0.58, blue: 0.15)
-        case .purple: return Color(red: 0.62, green: 0.35, blue: 0.90)
-        case .teal: return Color(red: 0.18, green: 0.75, blue: 0.72)
-        case .red: return Color(red: 0.95, green: 0.28, blue: 0.30)
+        case .blue: return Color(red: 0.25, green: 0.55, blue: 0.95)
+        case .green: return Color(red: 0.22, green: 0.78, blue: 0.42)
+        case .orange: return Color(red: 0.96, green: 0.56, blue: 0.12)
+        case .purple: return Color(red: 0.65, green: 0.38, blue: 0.92)
+        case .teal: return Color(red: 0.15, green: 0.75, blue: 0.70)
+        case .red: return Color(red: 0.94, green: 0.30, blue: 0.28)
         }
     }
 }
@@ -78,7 +78,7 @@ struct GameView: View {
 
     private var backgroundColor: Color {
         colorScheme == .dark
-            ? Color(red: 0.10, green: 0.09, blue: 0.08)
-            : Color(red: 0.96, green: 0.94, blue: 0.90)
+            ? Color(red: 0.08, green: 0.07, blue: 0.06)
+            : Color(red: 0.95, green: 0.93, blue: 0.89)
     }
 }

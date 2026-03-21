@@ -16,54 +16,139 @@ struct CellView: View {
         }
     }
 
-    // MARK: - Wall: raised bevel effect
+    // MARK: - Wall: raised block with multi-edge bevel
 
     private var wallCell: some View {
-        Rectangle()
-            .fill(wallBaseColor)
-            .overlay(
-                LinearGradient(
-                    colors: [.white.opacity(0.1), .clear, .black.opacity(0.15)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
+        ZStack {
+            // Base fill
+            Rectangle()
+                .fill(wallBaseColor)
+
+            // Top-left highlight edge (light hitting raised surface)
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .white.opacity(colorScheme == .dark ? 0.12 : 0.22), location: 0),
+                            .init(color: .clear, location: 0.35)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                 )
-            )
-            .frame(width: cellSize, height: cellSize)
+
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .white.opacity(colorScheme == .dark ? 0.08 : 0.15), location: 0),
+                            .init(color: .clear, location: 0.35)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+
+            // Bottom-right shadow edge (recessed shadow)
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.65),
+                            .init(color: .black.opacity(colorScheme == .dark ? 0.25 : 0.15), location: 1.0)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+
+            Rectangle()
+                .fill(
+                    LinearGradient(
+                        stops: [
+                            .init(color: .clear, location: 0.65),
+                            .init(color: .black.opacity(colorScheme == .dark ? 0.2 : 0.12), location: 1.0)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+
+            // Inset border to separate blocks
+            Rectangle()
+                .strokeBorder(
+                    colorScheme == .dark
+                        ? Color.black.opacity(0.4)
+                        : Color.black.opacity(0.12),
+                    lineWidth: 0.5
+                )
+        }
+        .frame(width: cellSize, height: cellSize)
     }
 
-    // MARK: - Floor: visible grid lines, vibrant paint
+    // MARK: - Floor: recessed surface with grid lines, vibrant paint
 
     private var floorCell: some View {
-        Rectangle()
-            .fill(isPainted ? levelColor.opacity(paintOpacity) : floorBaseColor)
-            .overlay(
+        ZStack {
+            if isPainted {
+                // Painted tile: gradient fill for "fresh paint" look
                 Rectangle()
-                    .strokeBorder(gridLineColor, lineWidth: 0.5)
-            )
-            .frame(width: cellSize, height: cellSize)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                levelColor.opacity(paintOpacity + 0.08),
+                                levelColor.opacity(paintOpacity),
+                                levelColor.opacity(paintOpacity - 0.05)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            } else {
+                // Unpainted floor: subtle recessed look
+                Rectangle()
+                    .fill(floorBaseColor)
+
+                // Subtle inner vignette for depth
+                Rectangle()
+                    .fill(
+                        RadialGradient(
+                            colors: [.clear, .black.opacity(colorScheme == .dark ? 0.06 : 0.03)],
+                            center: .center,
+                            startRadius: cellSize * 0.2,
+                            endRadius: cellSize * 0.7
+                        )
+                    )
+            }
+
+            // Grid lines
+            Rectangle()
+                .strokeBorder(gridLineColor, lineWidth: 0.5)
+        }
+        .frame(width: cellSize, height: cellSize)
     }
 
     // MARK: - Theme Colors
 
     private var wallBaseColor: Color {
         colorScheme == .dark
-            ? Color(red: 0.18, green: 0.16, blue: 0.14)
-            : Color(red: 0.25, green: 0.22, blue: 0.20)
+            ? Color(red: 0.16, green: 0.14, blue: 0.13)
+            : Color(red: 0.30, green: 0.27, blue: 0.24)
     }
 
     private var floorBaseColor: Color {
         colorScheme == .dark
-            ? Color(red: 0.28, green: 0.26, blue: 0.24)
-            : Color(red: 0.92, green: 0.89, blue: 0.85)
+            ? Color(red: 0.26, green: 0.24, blue: 0.22)
+            : Color(red: 0.93, green: 0.90, blue: 0.86)
     }
 
     private var paintOpacity: Double {
-        colorScheme == .dark ? 0.7 : 0.75
+        colorScheme == .dark ? 0.75 : 0.80
     }
 
     private var gridLineColor: Color {
         colorScheme == .dark
-            ? Color.white.opacity(0.06)
-            : Color.black.opacity(0.08)
+            ? Color.white.opacity(0.05)
+            : Color.black.opacity(0.07)
     }
 }

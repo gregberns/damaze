@@ -21,6 +21,20 @@ struct GridView: View {
             let gridHeight = cellSize * CGFloat(level.rows)
 
             ZStack(alignment: .topLeading) {
+                // Board backing: recessed panel behind the grid
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(boardBackingColor)
+                    .frame(width: gridWidth + 6, height: gridHeight + 6)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .strokeBorder(boardEdgeColor, lineWidth: 1)
+                    )
+                    .shadow(
+                        color: .black.opacity(colorScheme == .dark ? 0.6 : 0.25),
+                        radius: 10, x: 0, y: 5
+                    )
+                    .offset(x: -3, y: -3)
+
                 // Grid cells
                 VStack(spacing: 0) {
                     ForEach(0..<level.rows, id: \.self) { row in
@@ -57,17 +71,25 @@ struct GridView: View {
                 .allowsHitTesting(false)
             }
             .frame(width: gridWidth, height: gridHeight)
-            .shadow(
-                color: .black.opacity(colorScheme == .dark ? 0.5 : 0.2),
-                radius: 8, x: 0, y: 4
-            )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 
     private var borderColor: Color {
         colorScheme == .dark
-            ? Color.white.opacity(0.08)
-            : Color.black.opacity(0.12)
+            ? Color.white.opacity(0.1)
+            : Color.black.opacity(0.15)
+    }
+
+    private var boardBackingColor: Color {
+        colorScheme == .dark
+            ? Color(red: 0.10, green: 0.09, blue: 0.08)
+            : Color(red: 0.82, green: 0.78, blue: 0.73)
+    }
+
+    private var boardEdgeColor: Color {
+        colorScheme == .dark
+            ? Color.white.opacity(0.04)
+            : Color.black.opacity(0.08)
     }
 }
